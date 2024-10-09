@@ -6,21 +6,21 @@ import 'package:bloc_state_management/presentation/cubit/all_areas/all_areas_cub
 import 'package:bloc_state_management/presentation/cubit/all_categories/all_categories_dart_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/all_ingredients/all_ingredients_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/meals_by_area/meals_by_area_cubit.dart';
-import 'package:bloc_state_management/presentation/cubit/meals_by_ingredient/meals_by_ingredient_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/meals_by_category/meals_by_category_dart_cubit.dart';
+import 'package:bloc_state_management/presentation/cubit/meals_by_ingredient/meals_by_ingredient_cubit.dart';
+import 'package:bloc_state_management/presentation/cubit/single_random_meal/single_random_meal_cubit.dart';
 import 'package:bloc_state_management/presentation/screens/all_areas_screen.dart';
 import 'package:bloc_state_management/presentation/screens/all_categories_screen.dart';
 import 'package:bloc_state_management/presentation/screens/all_ingredients_screen.dart';
+import 'package:bloc_state_management/presentation/screens/area_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/category_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/ingredient_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/meal_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/search_screen.dart';
-import 'package:bloc_state_management/presentation/widgets/meals_carousel.dart';
 import 'package:bloc_state_management/presentation/widgets/meals_card.dart';
+import 'package:bloc_state_management/presentation/widgets/meals_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:bloc_state_management/presentation/screens/area_details_screen.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,13 +31,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   void _loadAll() {
     context.read<AllCategoriesDartCubit>().getAllCategories();
     context.read<AllIngredientsCubit>().getAllIngredients();
     context.read<AllAreasCubit>().getAllAreas();
   }
+
   @override
   void initState() {
     super.initState();
@@ -182,9 +181,13 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           leading: SizedBox(
             width: 100,
-            child: IconButton(onPressed: () {
-              showSnackBar(context, "Not implemented yet!");
-            }, icon: const Icon(Icons.menu)),
+            child: IconButton(
+              onPressed: () {
+                showSnackBar(context, "Not implemented yet!");
+              },
+              icon: const Icon(Icons.menu),
+              tooltip: "Search",
+            ),
           ),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           centerTitle: true,
@@ -192,7 +195,40 @@ class _HomeScreenState extends State<HomeScreen> {
           // Text("TheMealz with Bloc")
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: TextButton.icon(
+                onPressed: () {
+                  context.read<SingleRandomMealCubit>().getARandomMeal();
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return BlocBuilder<SingleRandomMealCubit,
+                          SingleRandomMealState>(builder: (context, state) {
+                        switch (state) {
+                          case SingleRandomMealIsLoading _:
+                            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+                          case SingleRandomMealError _:
+                            return Text("Something Went Wrong: ${state.message}");
+                          case SingleRandomMealLoaded _:
+                            // showSnackBar(context, "Got a random meal successfully: ${state.loadedMeal.name}");
+                            return MealDetailsScreen(mealId: -1, usingId: false, meal: state.loadedMeal, onMealRendered: (innerContext) {
+                              showSnackBar(innerContext, "Got a random meal successfully: ${state.loadedMeal.name}");
+                            });
+                          default:
+                            return const Placeholder();
+                        }
+                      });
+                    },
+                  ));
+                },
+                icon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.lunch_dining_sharp),
+                ),
+                label: const Text("Random Meal?"),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
                   onPressed: () {
                     navigateToSearchScreen(context);
@@ -201,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.all(8.0),
                     child: Icon(Icons.search),
                   )),
-            )
+            ),
           ],
         ),
         body: RefreshIndicator(

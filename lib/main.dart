@@ -7,6 +7,7 @@ import 'package:bloc_state_management/presentation/cubit/meals_by_ingredient/mea
 import 'package:bloc_state_management/presentation/cubit/full_meal_details/full_meal_details_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/meals_by_category/meals_by_category_dart_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/search_cubit/search_result_cubit.dart';
+import 'package:bloc_state_management/presentation/cubit/single_random_meal/single_random_meal_cubit.dart';
 import 'package:bloc_state_management/presentation/screens/home_screen.dart';
 import 'package:bloc_state_management/presentation/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => MealsByIngredientCubit(apiService)),
           BlocProvider(create: (context) => AllAreasCubit(apiService)),
           BlocProvider(create: (context) => SearchResultCubit(apiService)),
+          BlocProvider(create: (context) => SingleRandomMealCubit(apiService))
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

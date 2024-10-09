@@ -18,6 +18,8 @@ String getAllAreasUrl = "$baseUrl/list.php?a=list";
 
 String getSearchResultsUrl= "$baseUrl/search.php?s=";
 
+String getARandomMealUrl = "$baseUrl/random.php";
+
 const gridDelegate =
     SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250);
 

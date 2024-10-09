@@ -75,4 +75,22 @@ class ApiService {
     return result.meals?.map((e) => e.toDomainModel()).toList() ?? [];
   }
 
+  Future<FullMealDomainModel> getARandomMeal() async {
+    http.Response httpResponse =
+    await http.get(Uri.parse(getARandomMealUrl));
+    final Map<String, dynamic> jsonResponse = jsonDecode(httpResponse.body);
+    final FullMealResponseModel result =
+    FullMealResponseModel.fromJson(jsonResponse);
+    return result.meals![0].toDomainModel();
+  }
+
+  // Let's try this:
+  Future<List<FullMealDomainModel>> getNRandomMeals({int n = 5}) async {
+    List<FullMealDomainModel> result = [];
+    for(int i = 0;i<n;i++) {
+      result.add(await getARandomMeal());
+    }
+    return result;
+  }
+
 }

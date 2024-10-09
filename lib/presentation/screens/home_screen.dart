@@ -180,9 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () {
-            showSnackBar(context, "Not implemented yet!");
-          }, icon: const Icon(Icons.menu)),
+          leading: SizedBox(
+            width: 100,
+            child: IconButton(onPressed: () {
+              showSnackBar(context, "Not implemented yet!");
+            }, icon: const Icon(Icons.menu)),
+          ),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           centerTitle: true,
           title: SvgPicture.asset("assets/svg/app_bar_logo.svg"),
@@ -194,7 +197,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     navigateToSearchScreen(context);
                   },
-                  icon: const Icon(Icons.search)),
+                  icon: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.search),
+                  )),
             )
           ],
         ),

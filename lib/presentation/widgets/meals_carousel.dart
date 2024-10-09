@@ -13,6 +13,9 @@ class MealsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double maxWidth = 350;
+    const double maxHeight = 350;
+    final double wholeWidth = MediaQuery.sizeOf(context).width;
     return Column(
       children: [
         Padding(
@@ -28,23 +31,19 @@ class MealsCarousel extends StatelessWidget {
         ),
         ConstrainedBox(
           constraints:
-              const BoxConstraints(maxHeight: 500, minWidth: double.infinity),
+              const BoxConstraints(maxHeight: maxHeight, minWidth: double.infinity),
           child: CarouselSlider(
               items: items
                   .map((e) => ConstrainedBox(
                       constraints:
-                          const BoxConstraints(maxWidth: 400, maxHeight: 500),
+                          const BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
                       child: e))
                   .toList(),
               options: CarouselOptions(
                   autoPlayInterval: const Duration(milliseconds: 1500),
-                  // aspectRatio:
-                  //     MediaQuery.of(context).orientation == Orientation.portrait
-                  //         ? 1.4
-                  //         : 3,
                   autoPlay: true,
                   enlargeCenterPage: true,
-                  viewportFraction: 0.5)),
+                  viewportFraction: 1/(wholeWidth/maxWidth + 0.1))),
         ),
       ],
     );

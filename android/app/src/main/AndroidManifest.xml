@@ -2,7 +2,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="bloc_state_management"
+        android:label="TheMealz with Bloc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 
 String baseUrl = "https://www.themealdb.com/api/json/v1/1";
 
-String getAllCategoiesUrl = "$baseUrl/categories.php";
+String getAllCategoriesUrl = "$baseUrl/categories.php";
 
 String mealsByCategoryUrl = "$baseUrl/filter.php?c=";
 
 String mealsByIngredientUrl = "$baseUrl/filter.php?i=";
 
-String mealsByAraeUrl = "$baseUrl/filter.php?a=";
+String mealsByAreaUrl = "$baseUrl/filter.php?a=";
 
 String getFullMealByIdUrl = "$baseUrl/lookup.php?i=";
 
 String getAllIngredientsUrl = "$baseUrl/list.php?i=list";
 
 String getAllAreasUrl = "$baseUrl/list.php?a=list";
+
+String getSearchResultsUrl= "$baseUrl/search.php?s=";
 
 const gridDelegate =
     SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250);

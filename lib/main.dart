@@ -6,6 +6,7 @@ import 'package:bloc_state_management/presentation/cubit/all_ingredients/all_ing
 import 'package:bloc_state_management/presentation/cubit/meals_by_ingredient/meals_by_ingredient_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/full_meal_details/full_meal_details_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/meals_by_category/meals_by_category_dart_cubit.dart';
+import 'package:bloc_state_management/presentation/cubit/search_cubit/search_result_cubit.dart';
 import 'package:bloc_state_management/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,11 +32,12 @@ class MyApp extends StatelessWidget {
               create: (context) => MealsByCategoryDartCubit(apiService)),
           BlocProvider(create: (context) => AllIngredientsCubit(apiService)),
           BlocProvider(create: (context) => MealsByIngredientCubit(apiService)),
-          BlocProvider(create: (context) => AllAreasCubit(apiService))
+          BlocProvider(create: (context) => AllAreasCubit(apiService)),
+          BlocProvider(create: (context) => SearchResultCubit(apiService)),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'TheMealz with Bloc',
           theme: ThemeData(
             colorScheme:
                 ColorScheme.fromSeed(seedColor: const Color(0xFF8A5C2C)),

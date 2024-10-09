@@ -308,7 +308,6 @@ class FullMealDataModel {
     if (strTags != null && strTags!.isNotEmpty) {
       tags = strTags!.split(",");
     }
-    debugPrint("Tags = $tags");
     return FullMealDomainModel(
       id: idMeal,
       name: strMeal,

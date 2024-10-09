@@ -13,6 +13,7 @@ import 'package:bloc_state_management/presentation/screens/all_categories_screen
 import 'package:bloc_state_management/presentation/screens/all_ingredients_screen.dart';
 import 'package:bloc_state_management/presentation/screens/category_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/ingredient_details_screen.dart';
+import 'package:bloc_state_management/presentation/screens/search_screen.dart';
 import 'package:bloc_state_management/presentation/widgets/meals_carousel.dart';
 import 'package:bloc_state_management/presentation/widgets/meals_card.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  void _loadAll() {
+    context.read<AllCategoriesDartCubit>().getAllCategories();
+    context.read<AllIngredientsCubit>().getAllIngredients();
+    context.read<AllAreasCubit>().getAllAreas();
+  }
   @override
   void initState() {
     super.initState();
     // 2: requesting the data of the cubit.
-    context.read<AllCategoriesDartCubit>().getAllCategories();
-    context.read<AllIngredientsCubit>().getAllIngredients();
-    context.read<AllAreasCubit>().getAllAreas();
+    _loadAll();
   }
 
   List<Widget> homeScreenWidgets(BuildContext context) {
@@ -63,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               image: Image.network(category.strCategoryThumb!),
                               title: category.strCategory!,
                               onClick: () {
-                                navigateToCategoryDeatials(context, category);
+                                navigateToCategoryDetails(context, category);
                               }));
                     },
                   ).toList(),
@@ -73,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         MaterialPageRoute(
                             builder: (_) => AllCategoriesScreen(
                                 categories: state.loadedCategories,
-                                onCategoryClick: navigateToCategoryDeatials)));
+                                onCategoryClick: navigateToCategoryDetails)));
                   });
             default:
               return const Placeholder();
@@ -104,7 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             title: ingredient.name,
                             onClick: () {
                               navigateToIngredientScreen(context, ingredient);
-                              // navigateToCategoryDeatials(context, category);
                             }));
                   },
                 ).toList(),
@@ -165,9 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       )
-
-      // todo: add all Ingredient carousel with see all button
-      // todo: add all areas carousel with see all button ...
       //
     ];
   }
@@ -176,11 +178,22 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: const Text("TheMealz with Bloc")),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("TheMealz with Bloc"),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: IconButton(
+                  onPressed: () {
+                    navigateToSearchScreen(context);
+                  },
+                  icon: const Icon(Icons.search)),
+            )
+          ],
+        ),
         body: RefreshIndicator(
             onRefresh: () async {
-              context.read<AllCategoriesDartCubit>().getAllCategories();
+              _loadAll();
               return;
             },
             child: ListView.builder(
@@ -193,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-void navigateToCategoryDeatials(
+void navigateToCategoryDetails(
     BuildContext context, CategoryNetworkModel category) {
   context.read<MealsByCategoryDartCubit>().getMeals(category.strCategory!);
   Navigator.push(
@@ -228,6 +241,11 @@ void navigateToAreaScreen(
           child: AreaDetailsScreen(area: area),
         ),
       ));
+}
+
+void navigateToSearchScreen(BuildContext context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => const SearchScreen()));
 }
 
 Image getAreaImage(AreaDomainModel area) => ((area.name == "Unknown")

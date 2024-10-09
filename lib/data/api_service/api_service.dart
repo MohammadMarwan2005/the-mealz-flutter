@@ -11,11 +11,11 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   Future<AllCategoriesResponse> getAllCategories() async {
-    http.Response httpResponse = await http.get(Uri.parse(getAllCategoiesUrl));
+    http.Response httpResponse = await http.get(Uri.parse(getAllCategoriesUrl));
     final Map<String, dynamic> jsonResponse = jsonDecode(httpResponse.body);
-    final AllCategoriesResponse allCategoiesResponse =
+    final AllCategoriesResponse allCategoriesResponse =
         AllCategoriesResponse.fromJson(jsonResponse);
-    return allCategoiesResponse;
+    return allCategoriesResponse;
   }
 
   Future<MealsByCategoryResponse> getMealsBy(
@@ -29,7 +29,7 @@ class ApiService {
       case FilterKeywordType.ingredient:
         url = "$mealsByIngredientUrl$keyWord";
       case FilterKeywordType.area:
-        url = "$mealsByAraeUrl$keyWord";
+        url = "$mealsByAreaUrl$keyWord";
       default:
         url = "";
     }
@@ -66,6 +66,13 @@ class ApiService {
     return networkResponse.meals?.map((e) => e.toDomainModel()).toList() ?? [];
   }
 
-  // get all ingredient() // todo: add the two images directly
-  // get all areas() // todo: add the image directly (you will need a map...)
+  Future<List<FullMealDomainModel>> getSearchResultMeals(String keyword) async {
+    http.Response httpResponse =
+    await http.get(Uri.parse("$getSearchResultsUrl$keyword"));
+    final Map<String, dynamic> jsonResponse = jsonDecode(httpResponse.body);
+    final FullMealResponseModel result =
+    FullMealResponseModel.fromJson(jsonResponse);
+    return result.meals?.map((e) => e.toDomainModel()).toList() ?? [];
+  }
+
 }

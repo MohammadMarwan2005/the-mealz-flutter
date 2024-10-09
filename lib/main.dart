@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           darkTheme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
             useMaterial3: true,
           ),
           home: const HomeScreen(),

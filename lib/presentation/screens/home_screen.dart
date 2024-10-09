@@ -13,6 +13,7 @@ import 'package:bloc_state_management/presentation/screens/all_categories_screen
 import 'package:bloc_state_management/presentation/screens/all_ingredients_screen.dart';
 import 'package:bloc_state_management/presentation/screens/category_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/ingredient_details_screen.dart';
+import 'package:bloc_state_management/presentation/screens/meal_details_screen.dart';
 import 'package:bloc_state_management/presentation/screens/search_screen.dart';
 import 'package:bloc_state_management/presentation/widgets/meals_carousel.dart';
 import 'package:bloc_state_management/presentation/widgets/meals_card.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:bloc_state_management/presentation/screens/area_details_screen.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -178,8 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(onPressed: () {
+            showSnackBar(context, "Not implemented yet!");
+          }, icon: const Icon(Icons.menu)),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text("TheMealz with Bloc"),
+          centerTitle: true,
+          title: SvgPicture.asset("assets/svg/app_bar_logo.svg"),
+          // Text("TheMealz with Bloc")
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

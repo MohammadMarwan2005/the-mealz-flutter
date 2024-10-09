@@ -8,6 +8,7 @@ import 'package:bloc_state_management/presentation/cubit/full_meal_details/full_
 import 'package:bloc_state_management/presentation/cubit/meals_by_category/meals_by_category_dart_cubit.dart';
 import 'package:bloc_state_management/presentation/cubit/search_cubit/search_result_cubit.dart';
 import 'package:bloc_state_management/presentation/screens/home_screen.dart';
+import 'package:bloc_state_management/presentation/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +18,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final ApiService apiService = ApiService();
+  final theme = const MaterialTheme(TextTheme());
 
   MyApp({super.key});
 
@@ -38,15 +40,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'TheMealz with Bloc',
-          theme: ThemeData(
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: const Color(0xFF8A5C2C)),
-            useMaterial3: true,
-          ),
-          darkTheme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-            useMaterial3: true,
-          ),
+          theme: theme.light(),
+          darkTheme: theme.dark(),
           home: const HomeScreen(),
         ));
   }

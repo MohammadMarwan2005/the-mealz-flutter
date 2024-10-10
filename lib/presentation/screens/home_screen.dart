@@ -179,18 +179,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: SizedBox(
-            width: 100,
-            child: IconButton(
-              onPressed: () {
-                showSnackBar(context, "Not implemented yet!");
-              },
-              icon: const Icon(Icons.menu),
-              tooltip: "Search",
-            ),
-          ),
+          // leading: SizedBox(
+          //   width: 100,
+          //   child: IconButton(
+          //     onPressed: () {
+          //       showSnackBar(context, "Not implemented yet!");
+          //     },
+          //     icon: const Icon(Icons.menu),
+          //     tooltip: "Search",
+          //   ),
+          // ),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          centerTitle: true,
+          centerTitle: false,
           title: SvgPicture.asset("assets/svg/app_bar_logo.svg"),
           // Text("TheMealz with Bloc")
           actions: [

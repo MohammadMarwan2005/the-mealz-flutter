@@ -22,7 +22,7 @@ class AllAreasScreen extends StatelessWidget {
               image: getAreaImage(area),
               title: area.name,
               onClick: () {
-                // tood: naviage to the area details...
+                onAreaClicked(area);
               },
             ),
           );

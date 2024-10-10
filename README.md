@@ -1,16 +1,13 @@
-# bloc_state_management
+## 🍕 TheMealz Flutter - Day 35
+Built on Day 35 of my Flutter learning journey.
 
-A new Flutter project.
+# 🔧 Key Features
+- Handling API responses and building clean UI layouts
+- State management using Cubit and Bloc pattern
+- Continuous deployment to Firebase via GitHub Actions
 
-## Getting Started
+It’s been a great learning experience — from basics to real deployment.
+👉 [View the web app here](https://the-mealz-flutter.firebaseapp.com/)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="1440" alt="TheMealz Flutter" src="https://github.com/user-attachments/assets/b754d138-d478-4d94-a3fd-37e91fc1c983" />

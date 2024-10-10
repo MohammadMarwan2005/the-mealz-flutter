@@ -1,5 +1,4 @@
 import 'package:bloc_state_management/data/model/full_meal_response.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,131 +13,130 @@ import 'meal_details_screen.dart';
 
 class MealDetailsScreenByMealModel extends StatelessWidget {
   final FullMealDomainModel meal;
+
   const MealDetailsScreenByMealModel({super.key, required this.meal});
 
   @override
   Widget build(BuildContext context) {
+    const maxAllowedWidth = 1000;
+    double fullWidth = MediaQuery.sizeOf(context).width;
+    double paddingValues =
+        (fullWidth > maxAllowedWidth) ? (fullWidth - maxAllowedWidth) / 2 : 0;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
           body: CustomScrollView(
-            slivers: [
-              MySliverAppBar(
-                  floating: false,
-                  title: meal.name!,
-                  image: Padding(
-                    padding: const EdgeInsets.all(100),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(32),
-                      child: Image.network(
-                        meal.strMealThumb!,
-                        fit: BoxFit.cover,
-                        height: 500,
-                      ),
-                    ),
-                  )),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Wrap(
-                    runSpacing: 8,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      ..._getLabelEntry(meal, context)
-                          .map((e) => MyTagLabel(
+        slivers: [
+          MySliverAppBar(
+              floating: false,
+              title: meal.name!,
+              image: Padding(
+                padding: const EdgeInsets.all(100),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: Image.network(
+                    meal.strMealThumb!,
+                    fit: BoxFit.contain,
+                    height: 500,
+                  ),
+                ),
+              )),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Wrap(
+                runSpacing: 8,
+                alignment: WrapAlignment.center,
+                children: [
+                  ..._getLabelEntry(meal, context).map((e) => MyTagLabel(
                         icon: e.icon,
                         title: e.title,
                         onClick: e.onClick,
                       )),
-                    ],
-                  ),
-                ),
+                ],
               ),
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: TabBar(
-                    tabs: [
-                      Tab(text: "Ingredients"),
-                      Tab(text: "Instructions"),
-                      Tab(text: "More"),
-                    ],
-                  ),
-                ),
+            ),
+          ),
+           SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16 + paddingValues),
+              child: const TabBar(
+                tabs: [
+                  Tab(text: "Ingredients"),
+                  Tab(text: "Instructions"),
+                  Tab(text: "More"),
+                ],
               ),
-              SliverFillRemaining(
-                hasScrollBody: true,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TabBarView(children: [
-                    ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: meal.ingredients.length,
-                      itemBuilder: (context, index) {
-                        return IngredientItem(
-                          title: meal.ingredients[index],
-                          measure: meal.measures[index],
-                          onClick: () {
-// Failed: how to do that????
-                            navigateToIngredientScreen(
-                                context,
-                                IngredientNetworkModel(
-                                  idIngredient: "",
-                                  strIngredient:
-                                  meal.ingredients[index],
-                                  strDescription: "",
-                                  strType: "",
-                                ).toDomainModel());
-                          },
-                        );
+            ),
+          ),
+          SliverFillRemaining(
+            hasScrollBody: true,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16 + paddingValues),
+              child: TabBarView(children: [
+                ListView.builder(
+                  padding: const EdgeInsets.all(0),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: meal.ingredients.length,
+                  itemBuilder: (context, index) {
+                    return IngredientItem(
+                      title: meal.ingredients[index],
+                      measure: meal.measures[index],
+                      onClick: () {
+                        // Failed: how to do that????
+                        navigateToIngredientScreen(
+                            context,
+                            IngredientNetworkModel(
+                              idIngredient: "",
+                              strIngredient: meal.ingredients[index],
+                              strDescription: "",
+                              strType: "",
+                            ).toDomainModel());
                       },
-                    ),
-                    Text(meal.instructionsString!),
-                    ListView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(0),
-                      children: [
-                        Row(children: [
-                          MyChip(
-                            title: "Resources",
-                            iconData: Icons.attachment,
-                            onClick: () {
-                              final url =
-                              Uri.parse(meal.resource!);
-                              launchUrl(url);
-                            },
-                          )
-                        ]),
-                        const SizedBox(height: 8),
-                        Row(children: [
-                          MyChip(
-                            title: "Youtube Link",
-                            iconData: Icons.ondemand_video_rounded,
-                            onClick: () {
-                              if (meal.strYoutube != null) {
-                                launchUrl(Uri.parse(
-                                    meal.strYoutube!));
-                              }
-                            },
-                          )
-                        ]),
-                      ],
-                    ),
-                  ]),
+                    );
+                  },
                 ),
-              )
-            ],
-          )),
+                Text(meal.instructionsString!),
+                ListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(0),
+                  children: [
+                    Row(children: [
+                      MyChip(
+                        title: "Resources",
+                        iconData: Icons.attachment,
+                        onClick: () {
+                          final url = Uri.parse(meal.resource!);
+                          launchUrl(url);
+                        },
+                      )
+                    ]),
+                    const SizedBox(height: 8),
+                    Row(children: [
+                      MyChip(
+                        title: "Youtube Link",
+                        iconData: Icons.ondemand_video_rounded,
+                        onClick: () {
+                          if (meal.strYoutube != null) {
+                            launchUrl(Uri.parse(meal.strYoutube!));
+                          }
+                        },
+                      )
+                    ]),
+                  ],
+                ),
+              ]),
+            ),
+          )
+        ],
+      )),
     );
   }
-
-
 
   List<LabelEntry> _getLabelEntry(
       FullMealDomainModel meal, BuildContext context) {
     final AreaDomainModel areaDomainModel =
-    AreaNetwokModel(strArea: meal.areaString ?? "").toDomainModel();
+        AreaNetwokModel(strArea: meal.areaString ?? "").toDomainModel();
 
     return [
       LabelEntry(
@@ -156,7 +154,7 @@ class MealDetailsScreenByMealModel extends StatelessWidget {
         },
       ),
       ...meal.tags.map(
-            (tag) => LabelEntry(
+        (tag) => LabelEntry(
             title: tag,
             icon: const Icon(Icons.tag),
             onClick: () {
@@ -166,11 +164,7 @@ class MealDetailsScreenByMealModel extends StatelessWidget {
       )
     ];
   }
-
 }
-
-
-
 
 class LabelEntry {
   final String title;
